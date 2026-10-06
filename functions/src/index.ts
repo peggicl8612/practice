@@ -16,6 +16,7 @@ const allowedHosts = new Set([
   '127.0.0.1',
   'thread-5c032.web.app',
   'thread-5c032.firebaseapp.com',
+  'peggicl8612.github.io',
 ])
 
 interface ThreadsPage<T> {
