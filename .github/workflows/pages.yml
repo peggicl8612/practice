@@ -1,4 +1,5 @@
 name: Deploy GitHub Pages
+# 發布 Vite 產出的 dist，避免 Pages 直接提供原始碼。
 
 on:
   push:
