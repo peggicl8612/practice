@@ -42,6 +42,11 @@ function allowedReturn(value: string) {
   }
 }
 
+function fallbackReturn(value?: string) {
+  if (value && allowedReturn(value)) return value
+  return 'https://peggicl8612.github.io/practice/'
+}
+
 function readJson(body: unknown) {
   if (typeof body === 'string') return JSON.parse(body) as Record<string, unknown>
   if (body && typeof body === 'object') return body as Record<string, unknown>
@@ -102,7 +107,9 @@ export const threadsOAuthCallback = onRequest(
     const stateIsFresh = Boolean(createdAt && Date.now() - createdAt.toMillis() < 10 * 60 * 1000)
 
     if (!returnUrl || !allowedReturn(returnUrl) || !stateIsFresh) {
-      res.status(400).send('授權狀態已失效，請回到網站重新登入')
+      const destination = new URL(fallbackReturn(returnUrl))
+      destination.searchParams.set('error', 'state')
+      res.redirect(destination.toString())
       return
     }
     await stateRef.delete()
