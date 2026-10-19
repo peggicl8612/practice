@@ -39,3 +39,10 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+      - run: npm run build
+        env:
+          VITE_FUNCTIONS_BASE: ${{ secrets.VITE_FUNCTIONS_BASE }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - run: firebase deploy --only functions
